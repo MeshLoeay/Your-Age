@@ -12,7 +12,7 @@ function calcAge() {
   let now = new Date();
 
   if (birthDate > now) {
-    alert("و دى نحسبهالك ازاى");
+    alert("و دى نحسبهالك ازاى بذكائك");
     return;
   }
 
