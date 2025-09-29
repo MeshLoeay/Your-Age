@@ -50,7 +50,36 @@ function calcAge() {
     m += 12;
   }
 
-  document.getElementById(
-    "finalAge"
-  ).innerHTML = `<h3>عمرك ${y} سنة و ${m} شهر و ${d} يوم</h3>`;
+  document.getElementById("finalAge").innerHTML = `
+  <h3>عمرك ${y} سنة و ${m} شهر و ${d} يوم</h3>
+  <h4>يعني إنت عايش بقالك كتير 😂😂</h4>
+`;
+
+  // -------------------------------
+  // حساب المدة المتبقية لعيد الميلاد القادم 🎂
+  // -------------------------------
+  let nextBirthday = new Date(
+    now.getFullYear(),
+    birthDate.getMonth(),
+    birthDate.getDate()
+  );
+
+  // لو عيد الميلاد فات السنة دي -> نخليه السنة الجاية
+  if (nextBirthday < now) {
+    nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
+  }
+
+  let diffToBday = nextBirthday - now;
+  let daysToBday = Math.ceil(diffToBday / (1000 * 60 * 60 * 24));
+
+  let msg = "";
+  if (daysToBday <= 30) {
+    msg = `🎂 فاضل على عيد ميلادك ${daysToBday} يوم 🎉`;
+  } else {
+    let monthsLeft = Math.floor(daysToBday / 30);
+    let daysLeft = daysToBday % 30;
+    msg = `🎂🎉 فاضل على عيد ميلادك ${monthsLeft} شهر و ${daysLeft} يوم 🎉🎂`;
+  }
+
+  document.getElementById("birthdayLeft").innerHTML = `<h4>${msg}</h4>`;
 }
