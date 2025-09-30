@@ -1,3 +1,9 @@
+function limitLength(input, maxLength) {
+  if (input.value.length > maxLength) {
+    input.value = input.value.slice(0, maxLength);
+  }
+}
+
 function calcAge() {
   let day = document.getElementById("day").value;
   let month = document.getElementById("month").value;
@@ -50,42 +56,38 @@ function calcAge() {
     m += 12;
   }
 
-  // تكوين النص حسب الموجود
-  let ageText = "عمرك ";
-  if (y > 0) ageText += `${y} سنة`;
+  // صياغة النص (لو مفيش شهور أو أيام ما يظهرهمش)
+  let ageText = `عمرك ${y} سنة`;
   if (m > 0) ageText += ` و ${m} شهر`;
   if (d > 0) ageText += ` و ${d} يوم`;
 
-  document.getElementById("finalAge").innerHTML = `<h3>${ageText}</h3>`;
+  document.getElementById("finalAge").innerHTML = `
+    <h3>${ageText}</h3>
+  `;
 
   // -------------------------------
-  // حساب عيد الميلاد الجاي
+  // حساب المدة المتبقية لعيد الميلاد القادم 🎂
   // -------------------------------
-  let nextBday = new Date(
+  let nextBirthday = new Date(
     now.getFullYear(),
     birthDate.getMonth(),
     birthDate.getDate()
   );
-  if (nextBday < now) {
-    nextBday.setFullYear(nextBday.getFullYear() + 1);
+
+  if (nextBirthday < now) {
+    nextBirthday.setFullYear(nextBirthday.getFullYear() + 1);
   }
 
-  let diffBday = nextBday - now;
-  let daysToBday = Math.floor(diffBday / (1000 * 60 * 60 * 24));
+  let diffToBday = nextBirthday - now;
+  let daysToBday = Math.ceil(diffToBday / (1000 * 60 * 60 * 24));
 
   let msg = "";
   if (daysToBday <= 30) {
-    msg = `
-      <h4>الواحد عايش بقاله كتير يا جدعان 😂😂</h4>
-      🎂 فاضل على عيد ميلادك ${daysToBday} يوم 🎉
-    `;
+    msg = `🎂 فاضل على عيد ميلادك ${daysToBday} يوم 🎉`;
   } else {
     let monthsLeft = Math.floor(daysToBday / 30);
     let daysLeft = daysToBday % 30;
-    msg = `
-      <h4>الواحد عايش بقاله كتير يا جدعان 😂😂</h4>
-      🎂🎉 فاضل على عيد ميلادك ${monthsLeft} شهر و ${daysLeft} يوم 🎉🎂
-    `;
+    msg = `الواحد عايش بقاله كتير يا جدعان 😂😂<br>🎂🎉 فاضل على عيد ميلادك ${monthsLeft} شهر و ${daysLeft} يوم 🎉🎂`;
   }
 
   document.getElementById("birthdayLeft").innerHTML = `<h4>${msg}</h4>`;
