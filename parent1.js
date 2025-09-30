@@ -56,10 +56,18 @@ function calcAge() {
     m += 12;
   }
 
-  // صياغة النص (لو مفيش شهور أو أيام ما يظهرهمش)
-  let ageText = `عمرك ${y} سنة`;
-  if (m > 0) ageText += ` و ${m} شهر`;
-  if (d > 0) ageText += ` و ${d} يوم`;
+  let ageText = "";
+
+  if (y >= 1) {
+    ageText = `عمرك ${y} سنة`;
+    if (m > 0) ageText += ` و ${m} شهر`;
+    if (d > 0) ageText += ` و ${d} يوم`;
+  } else if (m >= 1) {
+    ageText = `عمرك ${m} شهر`;
+    if (d > 0) ageText += ` و ${d} يوم`;
+  } else {
+    ageText = `عمرك ${d} يوم`;
+  }
 
   document.getElementById("finalAge").innerHTML = `
     <h3>${ageText}</h3>
@@ -82,12 +90,22 @@ function calcAge() {
   let daysToBday = Math.ceil(diffToBday / (1000 * 60 * 60 * 24));
 
   let msg = "";
+  let extraLine = "";
+
+  // الشرط الجديد: لو العمر أقل من 18
+  if (y < 18) {
+    extraLine = `❤️🥰 <span style="color:gold; font-weight:bold;">كل سنة وانتو طيبين</span> 🥰❤️<br>
+  <span style="color:gold; font-weight:bold;">❤️🥰 و عقبال 100 سنه ان شاء الله 🥰❤️</span>`;
+  } else {
+    extraLine = "الواحد عايش بقاله كتير يا جدعان 😂😂";
+  }
+
   if (daysToBday <= 30) {
-    msg = `🎂 فاضل على عيد ميلادك ${daysToBday} يوم 🎉`;
+    msg = `${extraLine}<br>🎂🎉 فاضل على عيد ميلادك ${daysToBday} يوم 🎉🎂`;
   } else {
     let monthsLeft = Math.floor(daysToBday / 30);
     let daysLeft = daysToBday % 30;
-    msg = `الواحد عايش بقاله كتير يا جدعان 😂😂<br>🎂🎉 فاضل على عيد ميلادك ${monthsLeft} شهر و ${daysLeft} يوم 🎉🎂`;
+    msg = `${extraLine}<br>🎂🎉 فاضل على عيد ميلادك ${monthsLeft} شهر و ${daysLeft} يوم 🎉🎂`;
   }
 
   document.getElementById("birthdayLeft").innerHTML = `<h4>${msg}</h4>`;
